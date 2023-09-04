@@ -1,3 +1,6 @@
+import companystats.CompanyStats;
+import companystats.Employee;
+import companystats.EmployeeSalariesProcesses;
 
 public class Main {
 

@@ -1,3 +1,5 @@
+package companystats;
+
 public class CompanyStats {
     double avgSalary;
     double minSalary;

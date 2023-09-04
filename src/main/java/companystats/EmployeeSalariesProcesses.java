@@ -1,3 +1,5 @@
+package companystats;
+
 import java.io.*;
 
 public class EmployeeSalariesProcesses {
