@@ -1,18 +1,8 @@
-import javax.imageio.metadata.IIOMetadataFormatImpl;
 import java.io.*;
 
 public class EmployeeSalariesProcesses {
 
-    private String sourceFile;
-
-    private String resultFile;
-
-    public EmployeeSalariesProcesses(String sourceFile, String resultFile) {
-        this.sourceFile = sourceFile;
-        this.resultFile = resultFile;
-    }
-
-    private int countLines() {
+    private static int countLines(String sourceFile) {
         int size = 0;
         try (
                 var file = new FileReader(sourceFile);
@@ -31,8 +21,8 @@ public class EmployeeSalariesProcesses {
         return 0;
     }
 
-    private Employee[] readDataFile() {
-        int size = countLines();
+    public static Employee[] readDataFile(String sourceFile) {
+        int size = countLines(sourceFile);
         Employee[] employees = new Employee[size];
         try (
             var file = new FileReader(sourceFile);
@@ -51,73 +41,17 @@ public class EmployeeSalariesProcesses {
         return employees;
     }
 
-    private double avgSalary(Employee[] employees) {
-        double sum = 0;
-        for (Employee employee : employees) {
-            sum += employee.getSalary();
-        }
-        return sum / employees.length;
-    }
-
-    private double minSalary(Employee[] employees) {
-        double minSalary = employees[0].getSalary();
-        for (Employee employee : employees) {
-            if (employee.getSalary() < minSalary) {
-                minSalary = employee.getSalary();
-            }
-        }
-        return minSalary;
-    }
-
-    private double maxSalary(Employee[] employees) {
-        double maxSalary = employees[0].getSalary();
-        for (Employee employee : employees) {
-            if (employee.getSalary() > maxSalary) {
-                maxSalary = employee.getSalary();
-            }
-        }
-        return maxSalary;
-    }
-
-    private String departmentsStats(Employee[] employees) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String department : Employee.DEPARTMENTS) {
-            int employeeNumber = 0;
-            for (Employee employee : employees) {
-
-                if (department.equals(employee.getDepartment())) {
-                    employeeNumber++;
-                }
-            }
-            stringBuilder.append("Liczba pracowników " + department + ": " + employeeNumber + "\n");
-
-        }
-        return stringBuilder.toString();
-    }
-
-    private String companyStats(Employee[] employees) {
-        return "Średnia wypłata: " + avgSalary(employees) + "\n" +
-                "Minimalna wypłata: " + minSalary(employees) + "\n" +
-                "Maksymalna wypłata: " + maxSalary(employees) + "\n" +
-                departmentsStats(employees);
-    }
-
-    private void writeResultsToFile(String companyData) {
+    public static void writeResultsToFile(String companyStatistics, String resultFile) {
         try (
             var file = new FileWriter(resultFile);
             var writer = new BufferedWriter(file);
                 ) {
 
-            writer.write(companyData);
+            writer.write(companyStatistics);
         } catch (IOException e) {
             System.err.println("Nie znaleziono pliku");
         }
 
     }
 
-    public void employeeDataTransferToFile() {
-        Employee[] employees = readDataFile();
-        String contentToWrite = companyStats(employees);
-        writeResultsToFile(contentToWrite);
-    }
 }

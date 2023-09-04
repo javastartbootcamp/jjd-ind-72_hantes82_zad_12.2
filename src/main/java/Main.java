@@ -1,14 +1,14 @@
-import java.io.File;
-import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         String sourceFile = "employees.csv";
         String resultFileName = "stats.txt";
 
-        EmployeeSalariesProcesses employeeSalaries = new EmployeeSalariesProcesses(sourceFile, resultFileName);
-        employeeSalaries.employeeDataTransferToFile();
+        Employee[] employees = EmployeeSalariesProcesses.readDataFile(sourceFile);
+        CompanyStats companyStats = new CompanyStats(employees);
+        EmployeeSalariesProcesses.writeResultsToFile(companyStats.toString(), resultFileName);
+        EmployeeSalariesProcesses.writeResultsToFile(companyStats.fullStatistics(employees), resultFileName);
     }
 }

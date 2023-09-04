@@ -1,4 +1,4 @@
-class Employee {
+public class Employee {
     private String firstName;
     private String lastName;
     private String pesel;
@@ -51,6 +51,6 @@ class Employee {
                 return dep;
             }
         }
-        return "bez przydziału";
+        throw new IllegalArgumentException("Invalid department");
     }
 }
