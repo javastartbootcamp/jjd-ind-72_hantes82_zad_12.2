@@ -1,22 +1,21 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import companystats.CompanyStats;
+import companystats.Employee;
+import companystats.EmployeeSalariesProcesses;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        File file = new File("employees.csv");
+        String sourceFile = "employees.csv";
+        String resultFileName = "stats.txt";
 
-        if (file.exists()) {
-            File stats = new File("stats.txt");
-            stats.createNewFile();
-
-//            FileWriter fileWriter = new FileWriter(stats);
-//            fileWriter.write("Średnia wypłata: 5000");
-//
-//            fileWriter.close();
+        Employee[] employees = EmployeeSalariesProcesses.readDataFile(sourceFile);
+        if (employees != null) {
+            CompanyStats companyStats = new CompanyStats(employees);
+            EmployeeSalariesProcesses.writeResultsToFile(companyStats.toString(), resultFileName);
+            EmployeeSalariesProcesses.writeResultsToFile(companyStats.fullStatistics(employees), resultFileName);
+        } else {
+            System.out.println("Plik nie zawiera danych");
         }
-
     }
 }
