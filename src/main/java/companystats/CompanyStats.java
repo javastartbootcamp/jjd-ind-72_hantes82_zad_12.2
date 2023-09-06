@@ -1,9 +1,9 @@
 package companystats;
 
 public class CompanyStats {
-    double avgSalary;
-    double minSalary;
-    double maxSalary;
+    private final double avgSalary;
+    private final double minSalary;
+    private final double maxSalary;
 
     public CompanyStats(Employee[] employees) {
         this.avgSalary = avgSalary(employees);

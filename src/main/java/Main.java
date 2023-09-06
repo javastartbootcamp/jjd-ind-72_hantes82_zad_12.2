@@ -10,8 +10,12 @@ public class Main {
         String resultFileName = "stats.txt";
 
         Employee[] employees = EmployeeSalariesProcesses.readDataFile(sourceFile);
-        CompanyStats companyStats = new CompanyStats(employees);
-        EmployeeSalariesProcesses.writeResultsToFile(companyStats.toString(), resultFileName);
-        EmployeeSalariesProcesses.writeResultsToFile(companyStats.fullStatistics(employees), resultFileName);
+        if (employees != null) {
+            CompanyStats companyStats = new CompanyStats(employees);
+            EmployeeSalariesProcesses.writeResultsToFile(companyStats.toString(), resultFileName);
+            EmployeeSalariesProcesses.writeResultsToFile(companyStats.fullStatistics(employees), resultFileName);
+        } else {
+            System.out.println("Plik nie zawiera danych");
+        }
     }
 }

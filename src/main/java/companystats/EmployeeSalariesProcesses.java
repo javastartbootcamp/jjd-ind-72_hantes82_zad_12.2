@@ -18,29 +18,33 @@ public class EmployeeSalariesProcesses {
             }
             return lineCounter;
         } catch (IOException e) {
-            System.err.println("Nie znaleziono pliku");
+            System.err.println("Nie znaleziono pliku lub brak dostepu do pliku");
         }
         return 0;
     }
 
     public static Employee[] readDataFile(String sourceFile) {
         int size = countLines(sourceFile);
-        Employee[] employees = new Employee[size];
-        try (
-            var file = new FileReader(sourceFile);
-            var reader = new BufferedReader(file);
-                ) {
-            String newLine = null;
-            for (int i = 0; i < size; i++) {
-                newLine = reader.readLine();
-                String[] split = newLine.split(";");
-                employees[i] = new Employee(split[0], split[1], split[2], split[3], Double.parseDouble(split[4]));
-            }
+        if (size > 0) {
+            Employee[] employees = new Employee[size];
+            try (
+                    var file = new FileReader(sourceFile);
+                    var reader = new BufferedReader(file);
+            ) {
+                String newLine = null;
+                for (int i = 0; i < size; i++) {
+                    newLine = reader.readLine();
+                    String[] split = newLine.split(";");
+                    employees[i] = new Employee(split[0], split[1], split[2], split[3], Double.parseDouble(split[4]));
+                }
 
-        } catch (IOException e) {
-            System.err.println("Nie znaleziono pliku");
+            } catch (IOException e) {
+                System.err.println("Nie znaleziono pliku lub brak dostepu do pliku");
+            }
+            return employees;
+        } else {
+            return null;
         }
-        return employees;
     }
 
     public static void writeResultsToFile(String companyStatistics, String resultFile) {
